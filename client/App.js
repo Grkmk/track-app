@@ -1,21 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-export default function App() {
+import Account from './src/screens/Account';
+import Signin from './src/screens/Signin';
+import Signup from './src/screens/Signup';
+import TrackCreate from './src/screens/TrackCreate';
+import TrackDetail from './src/screens/TrackDetail';
+import TrackList from './src/screens/Account';
+
+const Stack = createStackNavigator();
+const Bottom = createBottomTabNavigator();
+
+export default function App(state) {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        {state.token == null ? (
+          <>
+            <Stack.Screen name='Signup' component={Signup} />
+            <Stack.Screen name='Signin' component={Signin} />
+          </>
+        ) : (
+          <Bottom.Navigator>
+            <Stack.Navigator>
+              <Stack.Screen name='TrackDetail' component={TrackDetail} />
+              <Stack.Screen name='TrackList' component={TrackList} />
+            </Stack.Navigator>
+            <Bottom.Screen name='Account' component={Account} />
+            <Bottom.Screen name='TrackCreate' component={TrackCreate} />
+          </Bottom.Navigator>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
