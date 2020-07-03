@@ -1,4 +1,15 @@
-.DS_Store
+*/.DS_Store
+*/node_modules
+*/.env
 
-server/node_modules
-server/.env
+client/.expo
+client/.expo-shared
+client/npm-debug.*
+client/web-build/
+
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
