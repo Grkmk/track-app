@@ -12,15 +12,9 @@ const pointSchema = new mongoose.Schema({
   }
 });
 const trackSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  name: {
-    type: String,
-    default: ''
-  },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  name: { type: String, default: '' },
   locations: [pointSchema]
 });
 
-mongoose.model('Track', trackSchema);
+module.exports = mongoose.model('Track', trackSchema);
