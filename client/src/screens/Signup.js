@@ -1,42 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text, Input, Button } from 'react-native-elements';
+import { connect } from 'react-redux';
 
-import { Context as AuthContext } from '../context/AuthContext';
-import Spacer from '../components/spacer';
+import * as actions from '../actions';
+import AuthForm from '../components/AuthForm';
+import NavLink from '../components/NavLink';
 
-const Signup = ({ navigation }) => {
-  const { state, signup } = useContext(AuthContext);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
+const Signup = ({ data, signup }) => {
   return (
     <View style={styles.container}>
-      <Spacer>
-        <Text h3>Signup</Text>
-      </Spacer>
-      <Input
-        label='Email'
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize='none'
-        autoCorrect={false}
+      <AuthForm
+        headerTxt='Sign Up'
+        errorMsg={data.errorMessage}
+        onSubmit={signup}
+        buttonTxt='Sign Up'
       />
-      <Spacer />
-      <Input
-        secureTextEntry
-        label='Password'
-        value={password}
-        onChangeText={setPassword}
-        autoCapitalize='none'
-        autoCorrect={false}
+      <NavLink
+        routeName='Signin'
+        txt='Already have an account? Sign in instead!'
       />
-      {state.errorMessage ? (
-        <Text style={styles.errorMsg}>{state.errorMessage}</Text>
-      ) : null}
-      <Spacer>
-        <Button title='Signup' onPress={() => signup({ email, password })} />
-      </Spacer>
     </View>
   );
 };
@@ -46,12 +28,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     marginBottom: 250
-  },
-  errorMsg: {
-    fontSize: 14,
-    color: 'red',
-    marginLeft: 10
   }
 });
 
-export default Signup;
+function mapStateToProps(data) {
+  return { data: data };
+}
+
+export default connect(mapStateToProps, actions)(Signup);
