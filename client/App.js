@@ -9,6 +9,8 @@ import Signup from './src/screens/Signup';
 import TrackCreate from './src/screens/TrackCreate';
 import TrackDetail from './src/screens/TrackDetail';
 import TrackList from './src/screens/TrackList';
+import { Provider as AuthProvider } from './src/context/AuthContext';
+import { setNavigator } from './src/navigationRef';
 
 const Stack = createStackNavigator();
 const Bottom = createBottomTabNavigator();
@@ -35,16 +37,23 @@ function User() {
 function Root() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name='Signup' component={Signup} />
+      <Stack.Screen
+        name='Signup'
+        component={Signup}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name='Signin' component={Signin} />
     </Stack.Navigator>
   );
 }
 
 export default function App(state) {
+  console.log(state);
   return (
-    <NavigationContainer>
-      {state.token == null ? Root() : User()}
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer ref={navigator => setNavigator(navigator)}>
+        {state.token == null ? Root() : User()}
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
