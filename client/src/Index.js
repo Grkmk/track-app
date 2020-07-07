@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Account from './screens/Account';
 import Signin from './screens/Signin';
@@ -61,9 +62,11 @@ const Index = ({ data, localSignin }) => {
   }, [data.init, data.auth]);
 
   return (
-    <NavigationContainer ref={navigator => setNavigator(navigator)}>
-      {nav}
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer ref={navigator => setNavigator(navigator)}>
+        {nav}
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 };
 

@@ -1,8 +1,17 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native';
+import { Text } from 'react-native-elements';
+
+import Map from '../components/Map';
 
 const TrackCreate = () => {
-  return <Text style={{ fontSize: 30 }}>TrackCreate</Text>;
+  return (
+    <SafeAreaView>
+      <Text h3>Create Track</Text>
+      <Map />
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({});
