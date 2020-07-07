@@ -57,8 +57,8 @@ const Index = ({ data, localSignin }) => {
   const [nav, setNav] = useState(null);
 
   useEffect(() => {
-    if (data.init) setNav(data.auth == null ? Root() : User());
-  }, [data.init]);
+    if (data.init) setNav(!data.auth ? Root() : User());
+  }, [data.init, data.auth]);
 
   return (
     <NavigationContainer ref={navigator => setNavigator(navigator)}>

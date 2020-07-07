@@ -9,7 +9,6 @@ export const signup = ({ email, password }) => async dispatch => {
     await AsyncStorage.setItem('token', res.data.token);
 
     dispatch({ type: types.SIGNIN, payload: res.data.token });
-    navigate('TrackList');
   } catch (err) {
     dispatch({ type: types.ERROR, payload: 'could not signup' });
   }
@@ -21,7 +20,6 @@ export const signin = ({ email, password }) => async dispatch => {
     await AsyncStorage.setItem('token', res.data.token);
 
     dispatch({ type: types.SIGNIN, payload: res.data.token });
-    navigate('TrackList');
   } catch (err) {
     dispatch({ type: types.ERROR, payload: 'could not signin' });
   }
@@ -38,4 +36,13 @@ export const localSignin = () => async dispatch => {
   } catch (err) {}
 
   dispatch({ type: types.INIT, payload: true });
+};
+
+export const signout = () => async dispatch => {
+  try {
+    await AsyncStorage.removeItem('token');
+    dispatch({ type: types.SIGNIN, payload: null });
+  } catch (err) {
+    dispatch({ type: types.ERROR, payload: 'could not signout' });
+  }
 };
