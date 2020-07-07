@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
 import trackerApi from '../api/tracker';
-import { navigate } from '../navigationRef';
 import * as types from './types';
 
 export const signup = ({ email, password }) => async dispatch => {
@@ -28,4 +27,15 @@ export const signin = ({ email, password }) => async dispatch => {
   }
 };
 
-export const signout = () => async dispatch => {};
+export const clearError = () => dispatch => {
+  dispatch({ type: types.ERROR, payload: '' });
+};
+
+export const localSignin = () => async dispatch => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    if (token) dispatch({ type: types.SIGNIN, payload: token });
+  } catch (err) {}
+
+  dispatch({ type: types.INIT, payload: true });
+};

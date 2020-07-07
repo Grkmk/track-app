@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,6 +11,7 @@ import TrackCreate from './screens/TrackCreate';
 import TrackDetail from './screens/TrackDetail';
 import TrackList from './screens/TrackList';
 import { setNavigator } from './navigationRef';
+import * as actions from './actions';
 
 const Stack = createStackNavigator();
 const Bottom = createBottomTabNavigator();
@@ -51,10 +52,17 @@ function Root() {
   );
 }
 
-const Index = ({ data }) => {
+const Index = ({ data, localSignin }) => {
+  localSignin();
+  const [nav, setNav] = useState(null);
+
+  useEffect(() => {
+    if (data.init) setNav(data.auth == null ? Root() : User());
+  }, [data.init]);
+
   return (
     <NavigationContainer ref={navigator => setNavigator(navigator)}>
-      {data.auth == null ? Root() : User()}
+      {nav}
     </NavigationContainer>
   );
 };
@@ -63,4 +71,4 @@ function mapStateToProps(data) {
   return { data: data };
 }
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps, actions)(Index);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -6,12 +6,15 @@ import * as actions from '../actions';
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
 
-const Signin = ({ data, signin }) => {
+const Signin = ({ data, signin, clearError, navigation }) => {
+  const clearErr = navigation.addListener('transitionStart', clearError);
+  useEffect(() => clearErr(), [navigation]);
+
   return (
     <View style={styles.container}>
       <AuthForm
         headerTxt='Sign In'
-        errorMsg={data.errorMessage}
+        errorMsg={data.error}
         onSubmit={signin}
         buttonTxt='Sign In'
       />
