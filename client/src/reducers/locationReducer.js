@@ -1,16 +1,28 @@
-import { CURRENT_LOC, LOCATIONS, RECORDING } from '../actions/types';
+import {
+  CURRENT_LOC,
+  LOCATIONS,
+  RECORDING,
+  TRACK_NAME
+} from '../actions/types';
 
 export default function (
-  state = { [CURRENT_LOC]: {}, [LOCATIONS]: [], [RECORDING]: false },
+  state = {
+    [CURRENT_LOC]: {},
+    [LOCATIONS]: [],
+    [RECORDING]: false,
+    [TRACK_NAME]: ''
+  },
   action
 ) {
   switch (action.type) {
     case CURRENT_LOC:
-      return { ...state, [CURRENT_LOC]: action.payload ? action.payload : {} };
+      return { ...state, [CURRENT_LOC]: action.payload };
     case LOCATIONS:
-      return { ...state, [LOCATIONS]: action.payload ? action.payload : [] };
+      return { ...state, [LOCATIONS]: [...state[LOCATIONS], action.payload] };
     case RECORDING:
-      return { ...state, [RECORDING]: action.payload ? action.payload : false };
+      return { ...state, [RECORDING]: action.payload };
+    case TRACK_NAME:
+      return { ...state, [TRACK_NAME]: action.payload };
     default:
       return state;
   }

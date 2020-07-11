@@ -20,6 +20,7 @@ const Map = ({ location }) => {
         strokeColor='rgba(158,158,255,1)'
         fillColor='rgba(158,158,255,0.3)'
       />
+      <Polyline coordinates={location.locations.map(loc => loc.coords)} />
     </MapView>
   );
 

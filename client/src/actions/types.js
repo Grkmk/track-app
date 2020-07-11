@@ -5,3 +5,4 @@ export const INIT = 'init';
 export const CURRENT_LOC = 'current_loc';
 export const LOCATIONS = 'locations';
 export const RECORDING = 'recording';
+export const TRACK_NAME = 'track_name';

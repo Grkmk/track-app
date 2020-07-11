@@ -47,9 +47,15 @@ export const signout = () => async dispatch => {
   }
 };
 
-export const startRecording = () => async dispatch => {};
-export const stopRecording = () => async dispatch => {};
+export const recording = isRecording => dispatch => {
+  dispatch({ type: types.RECORDING, payload: isRecording });
+};
 
-export const addLocation = location => dispatch => {
+export const addLocation = (location, isRecording) => dispatch => {
   dispatch({ type: types.CURRENT_LOC, payload: location });
+  if (isRecording) dispatch({ type: types.LOCATIONS, payload: location });
+};
+
+export const changeTrackName = name => dispatch => {
+  dispatch({ type: types.TRACK_NAME, payload: name });
 };
