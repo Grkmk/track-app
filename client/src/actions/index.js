@@ -46,3 +46,10 @@ export const signout = () => async dispatch => {
     dispatch({ type: types.ERROR, payload: 'could not signout' });
   }
 };
+
+export const startRecording = () => async dispatch => {};
+export const stopRecording = () => async dispatch => {};
+
+export const addLocation = location => dispatch => {
+  dispatch({ type: types.CURRENT_LOC, payload: location });
+};

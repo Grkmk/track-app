@@ -1,46 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import { Text, StyleSheet } from 'react-native';
-import MapView, { Polyline } from 'react-native-maps';
+import { Text, StyleSheet, ActivityIndicator } from 'react-native';
+import MapView, { Polyline, Circle } from 'react-native-maps';
+import { connect } from 'react-redux';
 
-function getCurrentLocation(setInitial) {
-  const options = {
-    enableHighAccuracy: true,
-    timeout: 20000,
-    maximumAge: 1000
-  };
-
-  navigator.geolocation.getCurrentPosition(position => {
-    setInitial({
-      latitude: parseFloat(position.coords.latitude),
-      longitude: parseFloat(position.coords.longitude),
-      latitudeDelta: 5,
-      longitudeDelta: 5
-    });
-  }, options);
-}
-
-const Map = () => {
-  const [initial, setInitial] = useState(null);
-
-  useEffect(() => {
-    if (!initial) getCurrentLocation(setInitial);
-  }, [initial]);
-
-  return (
+const Map = ({ location }) => {
+  const [currentLocation, setCurrentLocation] = useState({});
+  const activityIndicator = (
+    <ActivityIndicator size='large' style={{ marginTop: 200 }} />
+  );
+  const mapView = (
     <MapView
       style={styles.map}
-      initialRegion={initial}
-      followsUserLocation
-      zoomEnabled
-      showsUserLocation
+      initialRegion={currentLocation}
+      region={currentLocation}
     >
-      <Polyline />
+      <Circle
+        center={currentLocation}
+        radius={50}
+        strokeColor='rgba(158,158,255,1)'
+        fillColor='rgba(158,158,255,0.3)'
+      />
     </MapView>
   );
+
+  useEffect(() => {
+    if (!location.current_loc.coords) return;
+    setCurrentLocation({
+      ...location.current_loc.coords,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01
+    });
+  }, [location]);
+
+  return <>{location ? mapView : activityIndicator}</>;
 };
 
 const styles = StyleSheet.create({
   map: { height: 300 }
 });
 
-export default Map;
+function mapStateToProps(data) {
+  return { location: data.loc };
+}
+
+export default connect(mapStateToProps)(Map);
