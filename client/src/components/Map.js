@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { StyleSheet, ActivityIndicator } from 'react-native';
 import MapView, { Polyline, Circle } from 'react-native-maps';
 import { connect } from 'react-redux';
 

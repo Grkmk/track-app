@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import Spacer from './spacer';
 import * as actions from '../actions';
 
-const TrackForm = ({ track, changeTrackName, recording, saveTrack }) => {
-  const handleSave = () => saveTrack(track.track_name, track.locations);
+const TrackForm = ({
+  track,
+  changeTrackName,
+  recording,
+  saveTrack,
+  resetLoc
+}) => {
+  const nav = useNavigation();
+  const handleSave = async () => {
+    await saveTrack(track.track_name, track.locations);
+    resetLoc();
+    nav.navigate('TrackList');
+  };
 
   const startBtn = <Button title='Start' onPress={() => recording(true)} />;
   const stopBtn = <Button title='Stop' onPress={() => recording(false)} />;

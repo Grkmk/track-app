@@ -2,7 +2,8 @@ import {
   CURRENT_LOC,
   LOCATIONS,
   RECORDING,
-  TRACK_NAME
+  TRACK_NAME,
+  RESET_LOC
 } from '../actions/types';
 
 export default function (
@@ -23,6 +24,13 @@ export default function (
       return { ...state, [RECORDING]: action.payload };
     case TRACK_NAME:
       return { ...state, [TRACK_NAME]: action.payload };
+    case RESET_LOC:
+      return (state = {
+        [CURRENT_LOC]: {},
+        [LOCATIONS]: [],
+        [RECORDING]: false,
+        [TRACK_NAME]: ''
+      });
     default:
       return state;
   }

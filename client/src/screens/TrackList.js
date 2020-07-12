@@ -1,13 +1,35 @@
-import React from 'react';
-import { View, StyleSheet, Text, Button } from 'react-native';
+import React, { useEffect, useCallback } from 'react';
+import { StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import { useIsFocused } from '@react-navigation/native';
+import { connect } from 'react-redux';
 
-const TrackList = ({ navigation }) => {
+import * as actions from '../actions';
+
+const TrackList = ({ navigation, tracks, fetchTracks }) => {
+  const isFocused = useIsFocused();
+
+  const memoizedTracks = useCallback(() => fetchTracks(), []);
+  useEffect(() => {
+    if (!isFocused) return;
+    memoizedTracks();
+  }, [isFocused, memoizedTracks]);
+
+  const renderItem = item => (
+    <TouchableOpacity
+      onPress={() => navigation.navigate('TrackDetail', { _id: item._id })}
+    >
+      <ListItem chevron />
+    </TouchableOpacity>
+  );
+
   return (
     <>
       <Text style={{ fontSize: 30 }}>TrackList</Text>
-      <Button
-        title='Go to Track Detail'
-        onPress={() => navigation.navigate('TrackDetail')}
+      <FlatList
+        data={tracks}
+        keyExtractor={item => item._id}
+        renderItem={renderItem}
       />
     </>
   );
@@ -15,4 +37,8 @@ const TrackList = ({ navigation }) => {
 
 const styles = StyleSheet.create({});
 
-export default TrackList;
+function mapStateToProps(data) {
+  return { tracks: data.tracks };
+}
+
+export default connect(mapStateToProps, actions)(TrackList);

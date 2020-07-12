@@ -1,14 +1,9 @@
-import { SAVE_TRACK, TRACKS } from '../actions/types';
+import { TRACKS } from '../actions/types';
 
-export default function (
-  state = { [SAVE_TRACK]: false, [TRACKS]: [] },
-  action
-) {
+export default function (state, action) {
   switch (action.type) {
-    case SAVE_TRACK:
-      return { ...state, [SAVE_TRACK]: action.payload };
     case TRACKS:
-      return { ...state, [TRACKS]: [...state[TRACKS], action.payload] };
+      return action.payload || null;
     default:
       return state;
   }

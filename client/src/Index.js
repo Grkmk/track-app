@@ -16,11 +16,12 @@ import * as actions from './actions';
 
 const Stack = createStackNavigator();
 const Bottom = createBottomTabNavigator();
+const noHeader = { headerShown: false };
 
 function _TrackList() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name='TrackList' component={TrackList} />
+      <Stack.Screen name='TrackList' component={TrackList} options={noHeader} />
       <Stack.Screen name='TrackDetail' component={TrackDetail} />
     </Stack.Navigator>
   );
@@ -29,8 +30,16 @@ function _TrackList() {
 function User() {
   return (
     <Bottom.Navigator>
-      <Bottom.Screen name='TrackList' component={_TrackList} />
-      <Bottom.Screen name='TrackCreate' component={TrackCreate} />
+      <Bottom.Screen
+        name='TrackList'
+        component={_TrackList}
+        options={{ title: 'Tracks' }}
+      />
+      <Bottom.Screen
+        name='TrackCreate'
+        component={TrackCreate}
+        options={{ title: 'Add Track' }}
+      />
       <Bottom.Screen name='Account' component={Account} />
     </Bottom.Navigator>
   );
@@ -39,16 +48,8 @@ function User() {
 function Root() {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name='Signup'
-        component={Signup}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name='Signin'
-        component={Signin}
-        options={{ headerShown: false }}
-      />
+      <Stack.Screen name='Signup' component={Signup} options={noHeader} />
+      <Stack.Screen name='Signin' component={Signin} options={noHeader} />
     </Stack.Navigator>
   );
 }

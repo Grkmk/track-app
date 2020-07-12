@@ -61,6 +61,8 @@ export const changeTrackName = name => dispatch => {
   dispatch({ type: types.TRACK_NAME, payload: name });
 };
 
+export const resetLoc = () => dispatch => dispatch({ type: types.RESET_LOC });
+
 export const saveTrack = (name, locations) => async dispatch => {
   try {
     await authInstance.post('/tracks', { name, locations });
@@ -69,4 +71,12 @@ export const saveTrack = (name, locations) => async dispatch => {
   }
 };
 
-export const fetchTracks = () => dispatch => {};
+export const fetchTracks = () => async dispatch => {
+  let res;
+  try {
+    res = await authInstance.get('/tracks');
+    dispatch({ type: types.TRACKS, payload: res.data });
+  } catch (err) {
+    console.log(err);
+  }
+};
