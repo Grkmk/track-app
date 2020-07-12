@@ -1,22 +1,23 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-import trackerApi from '../api/tracker';
+import { instance, authInstance } from '../api/tracker';
 import * as types from './types';
 
 export const signup = ({ email, password }) => async dispatch => {
   try {
-    const res = await trackerApi.post('/signup', { email, password });
+    const res = await instance.post('/signup', { email, password });
     await AsyncStorage.setItem('token', res.data.token);
 
     dispatch({ type: types.SIGNIN, payload: res.data.token });
   } catch (err) {
+    console.log(err);
     dispatch({ type: types.ERROR, payload: 'could not signup' });
   }
 };
 
 export const signin = ({ email, password }) => async dispatch => {
   try {
-    const res = await trackerApi.post('/signin', { email, password });
+    const res = await instance.post('/signin', { email, password });
     await AsyncStorage.setItem('token', res.data.token);
 
     dispatch({ type: types.SIGNIN, payload: res.data.token });
@@ -59,3 +60,13 @@ export const addLocation = (location, isRecording) => dispatch => {
 export const changeTrackName = name => dispatch => {
   dispatch({ type: types.TRACK_NAME, payload: name });
 };
+
+export const saveTrack = (name, locations) => async dispatch => {
+  try {
+    await authInstance.post('/tracks', { name, locations });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const fetchTracks = () => dispatch => {};
